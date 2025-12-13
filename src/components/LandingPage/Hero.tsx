@@ -3,6 +3,7 @@ import React, { Children, memo } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '../ui/button'
 import { Globe, Users, CheckCircle, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 export function Hero() {
     const containerVariants = {
         hidden: {
@@ -72,9 +73,9 @@ export function Hero() {
                     <motion.div
                         className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
                     >
-                        <Button size="lg" >
+                        <Link href={"travelPlan"}><Button size="lg" >
                             Start Planning
-                        </Button>
+                        </Button></Link>
                         <Button variant="outline" size="lg">
                             Learn More
                         </Button>

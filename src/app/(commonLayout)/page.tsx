@@ -4,14 +4,13 @@ import { SubscriptionTiers } from "@/components/LandingPage/Subscription";
 import { Testimonials } from "@/components/LandingPage/Testomonial";
 import { Footer } from "@/components/shared/Footer";
 import Style from "@/components/shared/landingPageStyle";
-import Navbar from "@/components/shared/Navbar";
 
 const page = () => {
     return (
         <div>
             <Style/>
             <header>
-                <Navbar />
+               
                 <main className="">
                     <Hero />
                     <HowItWorks />
@@ -19,7 +18,6 @@ const page = () => {
                     <Testimonials/>
                 </main>
             </header>
-            <Footer />
         </div>
     );
 };
