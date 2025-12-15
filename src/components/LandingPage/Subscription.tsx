@@ -2,6 +2,8 @@
 import { motion } from 'framer-motion'
 import { Check, X } from 'lucide-react'
 import { Button } from '../../components/ui/button'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 const tiers = [
     {
         name: 'Free',
@@ -54,6 +56,23 @@ const tiers = [
     },
 ]
 export function SubscriptionTiers() {
+    const router = useRouter()
+
+    const handleSubscriptionPayment = async (plan: string, price: string) => {
+        try {
+            const { data } = await axios.post("/api/make-payment", {
+                plan,
+                price,
+            })
+
+            if (data?.url) {
+                router.push(data.url)
+            }
+        } catch (error) {
+            console.error(error)
+            alert("Payment failed. Please try again.")
+        }
+    }
     return (
         <section className="py-24 bg-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -130,10 +149,16 @@ export function SubscriptionTiers() {
                                     </li>
                                 ))}
                             </ul>
-
-                            <Button variant={tier.variant} className="w-full" size="lg">
-                                {tier.cta}
-                            </Button>
+<Button
+    variant={tier.variant}
+    className="w-full"
+    size="lg"
+    onClick={() =>
+        handleSubscriptionPayment(tier.name, tier.price)
+    }
+>
+    {tier.cta}
+</Button>
                         </motion.div>
                     ))}
                 </div>
