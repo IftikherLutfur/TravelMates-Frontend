@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import axios from "axios";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -8,14 +10,37 @@ export default function LoginPage() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ async is allowed here
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
-    // TODO: Send login request to API
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
+        formData,// 👈 this is your request body
+        {
+          withCredentials: true
+        }
+      );
+    
+      console.log("Login Success:", res.data);
+    } catch (err: any) {
+      console.log(err)
+      setError(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,7 +56,7 @@ export default function LoginPage() {
               name="email"
               onChange={handleChange}
               value={formData.email}
-              className="w-full border rounded px-3 py-2 focus:ring focus:outline-none"
+              className="w-full border rounded px-3 py-2"
               required
             />
           </div>
@@ -43,18 +68,28 @@ export default function LoginPage() {
               name="password"
               onChange={handleChange}
               value={formData.password}
-              className="w-full border rounded px-3 py-2 focus:ring focus:outline-none"
+              className="w-full border rounded px-3 py-2"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-            Login
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        <p className="text-center text-gray-700 text-sm pt-2">If you have not account then go to <a href="Register" className="underline">Signup</a></p>
+
+        {error && (
+          <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
+        )}
+
+        <p className="text-center text-gray-700 text-sm pt-2">
+          If you have no account then go to{" "}
+          <a href="Register" className="underline">Signup</a>
+        </p>
       </div>
     </div>
   );

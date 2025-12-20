@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 const tiers = [
     {
         name: 'Free',
-        price: '$0',
+        price: 700,
         period: '/month',
         description: 'Perfect for trying out the platform.',
         features: [
@@ -22,7 +22,7 @@ const tiers = [
     },
     {
         name: 'Premium',
-        price: '$9.99',
+        price: 1500,
         period: '/month',
         description: 'The best value for active travelers.',
         features: [
@@ -34,13 +34,13 @@ const tiers = [
         ],
         notIncluded: ['Dedicated travel concierge'],
         cta: 'Start Free Trial',
-        variant: 'primary' as const,
+        variant: 'default' as const,
         popular: true,
     },
     {
         name: 'Enterprise',
-        price: 'Custom',
-        period: '',
+        price: 0.00,
+        period: '7 Days',
         description: 'For travel agencies and tour groups.',
         features: [
             'Team management dashboard',
@@ -58,7 +58,7 @@ const tiers = [
 export function SubscriptionTiers() {
     const router = useRouter()
 
-    const handleSubscriptionPayment = async (plan: string, price: string) => {
+    const handleSubscriptionPayment = async (plan: string, price: number) => {
         try {
             const { data } = await axios.post("/api/make-payment", {
                 plan,
@@ -149,16 +149,16 @@ export function SubscriptionTiers() {
                                     </li>
                                 ))}
                             </ul>
-<Button
-    variant={tier.variant}
-    className="w-full"
-    size="lg"
-    onClick={() =>
-        handleSubscriptionPayment(tier.name, tier.price)
-    }
->
-    {tier.cta}
-</Button>
+                            <Button
+                                variant={tier.variant}
+                                className="w-full"
+                                size="lg"
+                                onClick={() =>
+                                    handleSubscriptionPayment(tier.name, tier.price)
+                                }
+                            >
+                                {tier.cta}
+                            </Button>
                         </motion.div>
                     ))}
                 </div>
