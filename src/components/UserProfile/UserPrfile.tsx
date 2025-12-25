@@ -1,21 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 
-const UserProfile = ({ user }: {user:any}) => {
-    const {
-        profileImage,
-        fullName,
-        travelInterests,
-        visitedCountries,
-        bio
-    } = user || {};
+const UserProfile = ({ profileImage,
+    fullName,
+    travelInterests,
+    visitedCountries,
+    bio,
+    email,
+    role }: {
+        profileImage?: string,
+        fullName: string,
+        travelInterests?: string[],
+        visitedCountries?: string[],
+        bio?: string | undefined,
+        email: string,
+        role?: string
+    }) => {
+
 
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
             <div className="flex flex-col items-center">
                 {/* Profile Image */}
-                <Image 
-                    src={profileImage} 
+                <Image
+                    src={profileImage}
                     alt="Profile"
                     width={100}
                     height={100}
@@ -26,14 +34,15 @@ const UserProfile = ({ user }: {user:any}) => {
                 <h2 className="text-2xl font-semibold mt-4">{fullName}</h2>
 
                 {/* Bio */}
-                <p className="text-gray-600 mt-2 text-center">{bio}</p>
+                <p className="text-gray-600 mt-2 text-center">{email}</p>
+                <p className="text-gray-600 mt-2 text-center">{role}</p>
 
                 {/* Travel Interests */}
                 <div className="mt-4 w-full">
                     <h3 className="font-semibold text-lg">Travel Interests</h3>
                     <p className="text-gray-700">
-                        {travelInterests?.length > 0 
-                            ? travelInterests.join(", ") 
+                        {travelInterests && travelInterests.length > 0
+                            ? travelInterests.join(", ")
                             : "No travel interests added"}
                     </p>
                 </div>
@@ -42,8 +51,8 @@ const UserProfile = ({ user }: {user:any}) => {
                 <div className="mt-4 w-full">
                     <h3 className="font-semibold text-lg">Visited Countries</h3>
                     <p className="text-gray-700">
-                        {visitedCountries?.length > 0 
-                            ? visitedCountries.join(", ") 
+                        {visitedCountries && visitedCountries?.length > 0
+                            ? visitedCountries.join(", ")
                             : "No countries visited yet"}
                     </p>
                 </div>
