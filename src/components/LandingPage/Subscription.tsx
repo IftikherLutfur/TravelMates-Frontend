@@ -145,7 +145,7 @@ const Pricing2 = () => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`, 
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );

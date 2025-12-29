@@ -4,47 +4,96 @@ import { useState } from "react";
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
-        fullName: "",
+        name: "",
         bio: "",
-        travelInterests: "",
+        email: "",
+        travelInterest: "",
         visitedCountries: "",
         currentLocation: "",
         profileImage: "",
+        password: ""
     });
 
-    const [imagePreview, setImagePreview] = useState("");
+    // const [imagePreview, setImagePreview] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     // handle image upload to Cloudinary / ImgBB
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
+    // const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const file = e.target.files?.[0];
+    //     if (!file) return;
 
-        setImagePreview(URL.createObjectURL(file));
+    //     setImagePreview(URL.createObjectURL(file));
 
-        const form = new FormData();
-        form.append("image", file);
+    //     const form = new FormData();
+    //     form.append("image", file);
 
-        // ImgBB upload endpoint
-        const API_KEY = process.env.NEXT_PUBLIC_IMGBB_KEY;
+    //     // ImgBB upload endpoint
+    //     const API_KEY = process.env.NEXT_PUBLIC_IMGBB_KEY;
 
-        const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
-            method: "POST",
-            body: form,
-        });
+    //     const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
+    //         method: "POST",
+    //         body: form,
+    //     });
 
-        const data = await res.json();
-        setFormData({ ...formData, profileImage: data.data.url });
-    };
+    //     const data = await res.json();
+    //     setFormData({ ...formData, profileImage: data.data.url });
+    // };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Registration Data:", formData);
-        // TODO: Send registration data to backend
+
+        const payload = {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            role: "USER", // or whatever default role you want
+            bio: formData.bio,
+            currentLocation: formData.currentLocation,
+
+            // convert comma separated strings → array
+            travelInterest: formData.travelInterest
+                ? formData.travelInterest.split(",").map(item => item.trim())
+                : [],
+
+            visitedCountries: formData.visitedCountries
+                ? formData.visitedCountries.split(",").map(item => item.trim())
+                : [],
+
+            profileImage: formData.profileImage,
+        };
+
+        try {
+            const res = await fetch("http://localhost:5000/api/user/userCreate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            const text = await res.text();
+
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch {
+                throw new Error("Server did not return JSON");
+            }
+
+            if (!res.ok) {
+                throw new Error(data.message || "Registration failed");
+            }
+
+            console.log(data);
+            alert("Registration successful 🎉");
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            console.error(error);
+            alert(error.message);
+        }
     };
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -58,15 +107,33 @@ export default function RegisterPage() {
                         <label className="block mb-1 font-medium">Full Name</label>
                         <input
                             type="text"
-                            name="fullName"
+                            name="name"
                             required
                             onChange={handleChange}
                             className="w-full border rounded px-3 py-2"
                         />
                     </div>
 
-                    {/* Profile Image */}
                     <div>
+                        <label className="block mb-1 font-medium">Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            required
+                            onChange={handleChange}
+                            className="w-full border rounded px-3 py-2"
+                        />
+                    </div>
+                    <div>
+                        {/* <CldImage
+    src="https://res.cloudinary.com/dgisrhgoe/image/upload/v1764586600/7c075149856aeebed7ac42593cb29a250a012c9b_qhd7fw.jpg"
+    alt="demo"
+    width={200}
+    height={200}
+    /> */}
+                    </div>
+                    {/* Profile Image */}
+                    {/* <div>
                         <label className="block mb-1 font-medium">Profile Image</label>
                         <input
                             type="file"
@@ -81,6 +148,15 @@ export default function RegisterPage() {
                                 className="w-24 h-24 mt-2 rounded object-cover"
                             />
                         )}
+                    </div> */}
+
+                    <div>
+                        <label htmlFor="">Image</label> <br />
+
+                        <input
+                            onChange={handleChange}
+
+                            className="border p-1 w-full" type="text" name="profileImage" id="" />
                     </div>
 
                     {/* Bio */}
@@ -99,7 +175,7 @@ export default function RegisterPage() {
                         <label className="block mb-1 font-medium">Travel Interests (e.g., Hiking, Food Tours)</label>
                         <input
                             type="text"
-                            name="travelInterests"
+                            name="travelInterest"
                             onChange={handleChange}
                             className="w-full border rounded px-3 py-2"
                         />
@@ -126,6 +202,16 @@ export default function RegisterPage() {
                             onChange={handleChange}
                             className="w-full border rounded px-3 py-2"
                             placeholder="Dhaka, Bangladesh"
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-1 font-medium">Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                            onChange={handleChange}
+                            className="w-full border rounded px-3 py-2"
                         />
                     </div>
 

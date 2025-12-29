@@ -3,7 +3,7 @@
 
 import Title from "@/utils/Title";
 
-const TravelPlans = ({ plans, onEdit, onDelete }:{ plans:any, onEdit:any, onDelete:any}) => {
+const TravelPlans = ({ plans }:{ plans:any}) => {
   return (
    <div
    className=""
@@ -34,7 +34,7 @@ const TravelPlans = ({ plans, onEdit, onDelete }:{ plans:any, onEdit:any, onDele
             <p className="mt-1">Type: {plan.travelType}</p>
             <p className="mt-2 text-gray-700">{plan.description}</p>
 
-            <div className="flex gap-3 mt-4">
+            {/* <div className="flex gap-3 mt-4">
               <button
                 onClick={() => onEdit(plan)}
                 className="px-2 py-1 bg-blue-600 text-white rounded-lg"
@@ -48,7 +48,7 @@ const TravelPlans = ({ plans, onEdit, onDelete }:{ plans:any, onEdit:any, onDele
               >
                 Delete
               </button>
-            </div>
+            </div> */}
           </div>
         ))}
         </div>

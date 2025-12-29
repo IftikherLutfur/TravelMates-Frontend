@@ -49,7 +49,7 @@ const Navbar = async () => {
 
                     <nav className="hidden md:flex items-center space-x-8"> <a href={"/"} className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Home </a>
                         <a href="Pricing" className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Pricing </a>
-                        <a href="#" className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Stories </a>
+                        <a href="travelPlan" className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Travel Plan </a>
                         <a href="#" className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Safety </a> </nav>
 
                     {!user ? (

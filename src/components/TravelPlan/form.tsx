@@ -1,9 +1,12 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { getRawToken } from "@/lib/auth-utils";
+import axios from "axios";
 import { useState, useEffect } from "react";
 
-const TravelPlanForm = ({ selectedPlan, onSave }:{selectedPlan:any, onSave:any}) => {
+const TravelPlanForm = ({ selectedPlan, onSave }: { selectedPlan: any, onSave: any }) => {
+  // console.log(token)
   const [form, setForm] = useState({
     destination: "",
     startDate: "",
@@ -19,21 +22,46 @@ const TravelPlanForm = ({ selectedPlan, onSave }:{selectedPlan:any, onSave:any})
     }
   }, [selectedPlan]);
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+
   };
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = async (e: any) => {
+    const token = await getRawToken()
+    console.log("Frontend Token", token)
     e.preventDefault();
-    onSave(form);
-    setForm({
-      destination: "",
-      startDate: "",
-      endDate: "",
-      budgetRange: "",
-      travelType: "",
-      description: "",
-    });
+
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/travel/create`,
+        form, // ✅ send form directly
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+
+          },
+        }
+      );
+      console.log(res, "DDDDD")
+      if (res.data?.data) {
+        console.log("Travel created:", res.data.data);
+      }
+
+      onSave(res.data.data);
+
+      setForm({
+        destination: "",
+        startDate: "",
+        endDate: "",
+        budgetRange: "",
+        travelType: "",
+        description: "",
+      });
+
+    } catch (err) {
+      console.error("Travel create failed:", err);
+      alert("There is some issue");
+    }
   };
 
   return (
@@ -90,10 +118,9 @@ const TravelPlanForm = ({ selectedPlan, onSave }:{selectedPlan:any, onSave:any})
           required
         >
           <option value="">Select Travel Type</option>
-          <option value="solo">Solo</option>
-          <option value="family">Family</option>
-          <option value="friends">Friends</option>
-          <option value="business">Business</option>
+          <option value="SOLO">Solo</option>
+          <option value="FAMILY">Family</option>
+          <option value="FRIENDS">Friends</option>
         </select>
 
         <textarea
