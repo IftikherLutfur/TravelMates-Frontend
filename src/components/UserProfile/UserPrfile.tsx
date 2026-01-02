@@ -1,61 +1,87 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 
-const UserProfile = ({ profileImage,
+type Review = {
+    id: string;
+    comment: string;
+    rating: number;
+};
+
+const UserProfile = ({
+    profileImage,
     fullName,
-    travelInterests,
-    visitedCountries,
-    bio,
     email,
-    role }: {
-        profileImage?: string,
-        fullName: string,
-        travelInterests?: string[],
-        visitedCountries?: string[],
-        bio?: string | undefined,
-        email: string,
-        role?: string
-    }) => {
-
-
+    visitedCountries = [],
+    upcomingPlans = [],
+    reviews = [],
+    isOwnProfile = false,
+}: {
+    profileImage?: string;
+    fullName: string;
+    email: string;
+    visitedCountries?: string[];
+    upcomingPlans?: string[];
+    reviews?: Review[];
+    isOwnProfile?: boolean;
+}) => {
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+        <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-xl">
             <div className="flex flex-col items-center">
                 {/* Profile Image */}
                 <Image
-                    src={profileImage}
+                    src={profileImage || "/default-avatar.png"}
                     alt="Profile"
-                    width={100}
-                    height={100}
-                    className="w-28 h-28 rounded-full object-cover border"
+                    width={120}
+                    height={120}
+                    className="rounded-full border object-cover"
                 />
 
-                {/* Name */}
                 <h2 className="text-2xl font-semibold mt-4">{fullName}</h2>
+                <p className="text-gray-600">{email}</p>
 
-                {/* Bio */}
-                <p className="text-gray-600 mt-2 text-center">{email}</p>
-                <p className="text-gray-600 mt-2 text-center">{role}</p>
+                {/* Edit Profile */}
+                {isOwnProfile && (
+                    <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">
+                        Edit Profile
+                    </button>
+                )}
+            </div>
 
-                {/* Travel Interests */}
-                <div className="mt-4 w-full">
-                    <h3 className="font-semibold text-lg">Travel Interests</h3>
-                    <p className="text-gray-700">
-                        {travelInterests && travelInterests.length > 0
-                            ? travelInterests.join(", ")
-                            : "No travel interests added"}
-                    </p>
-                </div>
+            {/* Visited Countries */}
+            <div className="mt-6">
+                <h3 className="font-semibold text-lg">Visited Countries</h3>
+                <p>
+                    {visitedCountries.length > 0
+                        ? visitedCountries.join(", ")
+                        : "No countries visited yet"}
+                </p>
+            </div>
 
-                {/* Visited Countries */}
-                <div className="mt-4 w-full">
-                    <h3 className="font-semibold text-lg">Visited Countries</h3>
-                    <p className="text-gray-700">
-                        {visitedCountries && visitedCountries?.length > 0
-                            ? visitedCountries.join(", ")
-                            : "No countries visited yet"}
-                    </p>
-                </div>
+            {/* Upcoming Plans */}
+            <div className="mt-6">
+                <h3 className="font-semibold text-lg">Upcoming Plans</h3>
+                <p>
+                    {upcomingPlans.length > 0
+                        ? upcomingPlans.join(", ")
+                        : "No upcoming plans"}
+                </p>
+            </div>
+
+            {/* Reviews */}
+            <div className="mt-6">
+                <h3 className="font-semibold text-lg">Reviews</h3>
+
+                {reviews.length > 0 ? (
+                    reviews.map((review) => (
+                        <div key={review.id} className="border p-3 rounded mt-2">
+                            <p className="text-sm">{review.comment}</p>
+                            <p className="text-xs text-gray-500">
+                                Rating: ⭐ {review.rating}
+                            </p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No reviews yet</p>
+                )}
             </div>
         </div>
     );
