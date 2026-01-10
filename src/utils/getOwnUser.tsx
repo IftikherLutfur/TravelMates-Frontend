@@ -12,7 +12,7 @@ const getOwnUser = async () => {
             },
         }
     );
-
+console.log(res.data)
     return res.data.data; // ✅ user return
 };
 

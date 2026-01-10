@@ -28,6 +28,7 @@ const Navbar = async () => {
             if (res.ok) {
                 const data = await res.json();
                 user = data.data;
+                console.log(user.role)
                 // console.log(user, "Hello")
             }
         } catch (error) {
@@ -36,9 +37,6 @@ const Navbar = async () => {
 
 
     }
-
-
-
     return (
         <header className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-40 border-b">
             <CommonDiv>
@@ -50,7 +48,9 @@ const Navbar = async () => {
                     <nav className="hidden md:flex items-center space-x-8"> <a href={"/"} className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Home </a>
                         <a href="Pricing" className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Pricing </a>
                         <a href="travelPlan" className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Travel Plan </a>
-                        <a href="#" className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Safety </a> </nav>
+                        <a href="#" className="text-sm font-medium text-slate-600 hover:text-[#0066CC] transition-colors" > Safety </a>
+                        {user && user.role === "ADMIN" ? <Link href={"/Dashboard/AllUsers"}>Dashboard</Link> : null}
+                    </nav>
 
                     {!user ? (
                         <div className="flex items-center gap-4">

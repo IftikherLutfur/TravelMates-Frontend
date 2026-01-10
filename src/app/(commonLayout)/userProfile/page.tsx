@@ -59,9 +59,9 @@ const Page = () => {
           </TabPanel>
 
           <TabPanel className="p-6">
-             {travel.length > 0 ? 
+             {/* {travel.length > 0 ? 
             <TravelPlans plans={travel}/> :  <p className="text-gray-500">No travel plans yet.</p>
-            }
+            } */}
           </TabPanel>
 
           <TabPanel className="p-6">

@@ -20,7 +20,7 @@ const TravelPlannerPage = () => {
         setLoading(true);
 
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/travel/allTravel`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/travel`
         );
 
         setPlans(res.data.data);

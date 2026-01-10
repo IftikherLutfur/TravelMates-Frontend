@@ -17,7 +17,7 @@ const Sidebar = () => {
                 {/* Menu */}
                 <ul className="space-y-1">
                     <li>
-                        <a className="flex items-center gap-3 rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700">
+                        <a href={"/"} className="flex items-center gap-3 rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700">
                             <Home size={18} />
                             Home
                         </a>
@@ -26,14 +26,14 @@ const Sidebar = () => {
                     <li className="flex items-center gap-2">
                         
                             <Users size={18} />
-                            <Link href="Dashboard/AllUsers">Users</Link>
+                            <Link href="AllUsers">Users</Link>
                         
                     </li>
 
                     <li className="flex items-center gap-2">
                        
                             <Map size={18} />
-                            Travel Plans
+                            <Link href="AllTravel">All Travel Plans</Link>
                        
                     </li>
 

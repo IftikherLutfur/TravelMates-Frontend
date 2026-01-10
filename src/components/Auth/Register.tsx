@@ -1,6 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -10,7 +12,7 @@ export default function RegisterPage() {
         travelInterest: "",
         visitedCountries: "",
         currentLocation: "",
-        profileImage: "",
+        profileImage: "https://res.cloudinary.com/dgisrhgoe/image/upload/v1767447945/man-avatar-free-vector_zj7n9g.jpg",
         password: ""
     });
 
@@ -41,7 +43,7 @@ export default function RegisterPage() {
     //     const data = await res.json();
     //     setFormData({ ...formData, profileImage: data.data.url });
     // };
-
+    const router = useRouter()
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -66,7 +68,7 @@ export default function RegisterPage() {
         };
 
         try {
-            const res = await fetch("http://localhost:5000/api/user/userCreate", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/userCreate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -77,6 +79,7 @@ export default function RegisterPage() {
             let data;
             try {
                 data = JSON.parse(text);
+
             } catch {
                 throw new Error("Server did not return JSON");
             }
@@ -86,11 +89,14 @@ export default function RegisterPage() {
             }
 
             console.log(data);
-            alert("Registration successful 🎉");
+            if (data) {
+                toast.success("Registration successful 🎉");
+                router.push("/Login")
+            }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error(error);
-            alert(error.message);
+            toast.error(error.message);
         }
     };
 
@@ -125,12 +131,7 @@ export default function RegisterPage() {
                         />
                     </div>
                     <div>
-                        {/* <CldImage
-    src="https://res.cloudinary.com/dgisrhgoe/image/upload/v1764586600/7c075149856aeebed7ac42593cb29a250a012c9b_qhd7fw.jpg"
-    alt="demo"
-    width={200}
-    height={200}
-    /> */}
+                      
                     </div>
                     {/* Profile Image */}
                     {/* <div>
@@ -149,8 +150,8 @@ export default function RegisterPage() {
                             />
                         )}
                     </div> */}
-
-                    <div>
+               
+                    <div className="hidden">
                         <label htmlFor="">Image</label> <br />
 
                         <input
@@ -221,6 +222,7 @@ export default function RegisterPage() {
                     >
                         Register
                     </button>
+                    <Toaster position="top-right" />
                 </form>
             </div>
         </div>

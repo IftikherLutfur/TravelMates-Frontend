@@ -4,6 +4,7 @@
 import { getRawToken } from "@/lib/auth-utils";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const TravelPlanForm = ({ selectedPlan, onSave }: { selectedPlan: any, onSave: any }) => {
   // console.log(token)
@@ -42,9 +43,9 @@ const TravelPlanForm = ({ selectedPlan, onSave }: { selectedPlan: any, onSave: a
           },
         }
       );
-      console.log(res, "DDDDD")
+      
       if (res.data?.data) {
-        console.log("Travel created:", res.data.data);
+        toast.success("Travel created:", res.data.data);
       }
 
       onSave(res.data.data);
@@ -60,7 +61,7 @@ const TravelPlanForm = ({ selectedPlan, onSave }: { selectedPlan: any, onSave: a
 
     } catch (err) {
       console.error("Travel create failed:", err);
-      alert("There is some issue");
+      toast.error("No more access");
     }
   };
 
@@ -138,6 +139,7 @@ const TravelPlanForm = ({ selectedPlan, onSave }: { selectedPlan: any, onSave: a
         >
           {selectedPlan ? "Update Plan" : "Add Plan"}
         </button>
+        <Toaster position="top-right"/>
       </form>
     </div>
   );

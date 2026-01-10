@@ -2,29 +2,32 @@
 "use client";
 
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-
-
+  
+  
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  
   // ✅ async is allowed here
+  const router = useRouter()
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-
+    
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
@@ -35,8 +38,17 @@ export default function LoginPage() {
       );
     
       console.log("Login Success:", res.data);
+      if(res.data){
+        toast.success("You've logged in")
+        
+        router.push("/")
+        
+        
+      }
+      
     } catch (err: any) {
       console.log(err)
+      toast.error(err.response?.data?.message || "Login failed")
       setError(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
@@ -80,6 +92,7 @@ export default function LoginPage() {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
+          <Toaster position="top-right"/>
         </form>
 
         {error && (

@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/immutability */
 'use client'
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { getEmailFromToken, getRawToken } from '@/lib/auth-utils';
+import toast from 'react-hot-toast';
 
 // Helper component for animating numbers with a "smokey" effect
 interface AnimatedPriceProps {
@@ -72,7 +74,7 @@ const Pricing2 = () => {
                 'Community Support',
                 'Custom Domains'
             ],
-            buttonText: 'Get Started',
+            buttonText: 'Buy',
             isPopular: false,
         },
         {
@@ -87,7 +89,7 @@ const Pricing2 = () => {
                 'Custom Domains',
                 'Team Collaboration'
             ],
-            buttonText: 'Start Free Trial',
+            buttonText: 'Buy',
             isPopular: true,
         },
         {
@@ -102,7 +104,7 @@ const Pricing2 = () => {
                 'Dedicated Account Manager',
                 'SAML/SSO Integration'
             ],
-            buttonText: 'Contact Sales',
+            buttonText: 'Buy',
             isPopular: false,
         },
     ];
@@ -152,12 +154,13 @@ const Pricing2 = () => {
             const { data } = res;
             if (data && data.data) {
                 console.log(data.data); // redirect to payment gateway
+                window.location.href = data.data;
             }
 
 
         } catch (err) {
+            toast.error("Payment initiation failed. Make sure you are logged in.");
             console.error("Payment initiation failed:", err);
-            alert("Payment initiation failed. Make sure you are logged in.");
         }
     };
 

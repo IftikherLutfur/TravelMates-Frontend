@@ -7,7 +7,7 @@ const AllUsers = async () => {
 
   const res = await axios.get(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/get-all-user`,
-    {
+    { 
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -15,7 +15,7 @@ const AllUsers = async () => {
   );
 
   const users = res.data;
-  console.log(users.data)
+  console.log(users,"Hello")
 
     return (
         <div>
