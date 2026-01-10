@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TravelBuddy 🌍✈️
 
-## Getting Started
+**TravelBuddy** is a travel buddy and meetup web application where users can plan trips, connect with fellow travelers, and manage their travel plans efficiently.  
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **User Registration & Authentication**: Users can register and log in to the platform.  
+- **Create Travel Plans**:  
+  - Each user can create **one travel plan** for free.  
+  - To create multiple travel plans, users must subscribe to a plan.  
+- **Explore Travel Plans**:  
+  - Search for travel plans by keywords.  
+  - Filter by destination.  
+  - Sort by budget range.  
+- **User Dashboard**:  
+  - View your travel plans.  
+  - Edit or manage your profile.  
+- **Admin Dashboard**:  
+  - Manage users and travel plans.  
+  - Control access and moderate content.  
+  - Admin credentials:  
+    - **Email:** admin@example.com  
+    - **Password:** Abdulah677345  
+**Create a user**
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Tech**: Next.js, Typescipt, Tailwind CSS  
+---
